@@ -14,7 +14,8 @@ yarn install
 ```
 
 ## Usage
-
+Either have a mongoDB database running on localhost(or put your own DB in),
+then run
 ```sh
 node index.js
 ```
