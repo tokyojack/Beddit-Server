@@ -1,12 +1,16 @@
 const db = require("../models");
-
 exports.createPost = async function (req, res, next) {
     try {
+        // Gets id
+        let category = await db.Category.findOne({
+            name: req.body.category_name
+        });
+
         let post = await db.Post.create({
             title: req.body.title,
             content: req.body.content,
             user: req.body.user_id,
-            category: req.body.category_id
+            category: category._id
         });
 
         // Adds the post to the user
@@ -15,7 +19,7 @@ exports.createPost = async function (req, res, next) {
         await currentUser.save();
 
         // Adds the post to the category
-        let currentCategory = await db.Category.findById(req.body.category_id);
+        let currentCategory = await db.Category.findById(category._id);
         currentCategory.posts.push(post._id);
         await currentCategory.save();
 
